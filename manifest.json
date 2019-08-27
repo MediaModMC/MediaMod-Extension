@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+    "name": "MediaMod Browser Integration",
+    "version": "0.0.1",
+    "description": "Allows MediaMod to show the currently playing Media in multiple websites including YouTube, SoundCloud & more",
+    "icons": {
+        "48": "icons/mediamod-48.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.mozilla.org/*"
+            ],
+            "js": [
+                "js/mediamod-browser.js"
+            ]
+        }
+    ]
+}

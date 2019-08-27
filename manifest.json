@@ -12,6 +12,7 @@
                 "*://*.mozilla.org/*"
             ],
             "js": [
+                "js/depends/socket.io.js",
                 "js/mediamod-browser.js"
             ]
         }

@@ -1,8 +1,8 @@
 setInterval(() => {
-    const url = new URL(window.location.href);
-    const videoId = url.searchParams.get("v");
+  const url = new URL(window.location.href);
+  const videoId = url.searchParams.get("v");
 
-    if (videoId === null) {
+  if (!videoId) {
     fetch("http://localhost:9102/disconnect", {
       method: "get"
     })
@@ -13,30 +13,26 @@ setInterval(() => {
     return;
   }
 
-  let title = $("h1")
-    .filter(".title")
-    .filter(".style-scope")
-    .filter(".ytd-video-primary-info-renderer")
-    .text();
-  let artist = $("#upload-info .ytd-channel-name")[0].innerText;
-  let albumart =
-    "https://img.youtube.com/vi/" +
-      videoId +
-    "/0.jpg";
+  const title = document.querySelector(
+    "h1.title > .ytd-video-primary-info-renderer"
+  ).textContent;
+  const artist = document.querySelector(
+    "#upload-info div#text-container.ytd-channel-name a"
+  ).textContent;
+  const videoElement = /** @type {HTMLVideoElement} */ (document.querySelector(
+    "video.video-stream.html5-main-video"
+  ));
 
-    let videoStream = $(".video-stream");
+  const albumArt = "https://img.youtube.com/vi/" + videoId + "/0.jpg";
+  const progress = Math.floor(videoElement.currentTime) * 1000;
+  const duration = Math.floor(videoElement.duration) * 1000;
 
-    let timestampSeconds = Math.floor(videoStream[0].currentTime);
-    let lengthSeconds = Math.floor(videoStream[0].duration);
-  let timestamp = timestampSeconds * 1000;
-  let length = lengthSeconds * 1000;
-
-  if (title === "") {
+  if (!title || title.trim().length === 0) {
     return;
   }
 
-  let data = {
-    progress_ms: timestamp,
+  const data = {
+    progress_ms: progress,
     item: {
       album: {
         artists: [
@@ -46,11 +42,11 @@ setInterval(() => {
         ],
         images: [
           {
-            url: albumart
+            url: albumArt
           }
         ]
       },
-      duration_ms: length,
+      duration_ms: duration,
       name: title
     }
   };

@@ -2,10 +2,31 @@ setInterval(() => {
   const title = document
     .querySelector(".title.style-scope.ytmusic-player-bar")
     .getAttribute("title");
-  const [artist, albumname, releaseDate] = document
-    .querySelector(".byline.style-scope.ytmusic-player-bar")
-    .getAttribute("title")
-    .split(" • ");
+
+  const bylineElement = document.querySelector(
+    ".byline.style-scope.ytmusic-player-bar"
+  );
+
+  const artists = [];
+
+  for (
+    let childIndex = 0;
+    childIndex < bylineElement.children.length;
+    childIndex++
+  ) {
+    const child = bylineElement.children[childIndex];
+
+    if (child.nodeName === "SPAN") {
+      if (child.textContent.includes(" • ")) {
+        break;
+      } else {
+        continue;
+      }
+    }
+
+    artists.push({ name: child.textContent });
+  }
+
   const albumArt = document
     .querySelector("img.image.style-scope.ytmusic-player-bar")
     .getAttribute("src");
@@ -25,11 +46,7 @@ setInterval(() => {
     progress_ms: progress,
     item: {
       album: {
-        artists: [
-          {
-            name: artist
-          }
-        ],
+        artists: artists,
         images: [
           {
             url: albumArt

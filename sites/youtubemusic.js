@@ -38,12 +38,16 @@ setInterval(() => {
   const duration =
     Number(progressBarElement.getAttribute("aria-valuemax")) * 1000;
 
+  const moviePlayerElement = document.getElementById("movie_player");
+  const paused = moviePlayerElement ? moviePlayerElement.classList.contains("paused-mode") : true;
+
   if (!title || title.trim().length === 0) {
     return;
   }
 
   const data = {
     progress_ms: progress,
+    is_playing: !paused,
     item: {
       album: {
         artists: artists,

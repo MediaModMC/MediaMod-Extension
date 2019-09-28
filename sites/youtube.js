@@ -13,6 +13,9 @@ setInterval(() => {
     return;
   }
 
+  const player = document.getElementById("movie_player");
+  const paused = player ? player.classList.contains("paused-mode") : true;
+
   const title = document.querySelector(
     "h1.title > .ytd-video-primary-info-renderer"
   ).textContent;
@@ -33,6 +36,7 @@ setInterval(() => {
 
   const data = {
     progress_ms: progress,
+    is_playing: !paused,
     item: {
       album: {
         artists: [
@@ -50,6 +54,8 @@ setInterval(() => {
       name: title
     }
   };
+
+  console.log(data);
 
   fetch("http://localhost:9102/", {
     method: "post",

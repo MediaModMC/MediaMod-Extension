@@ -6,6 +6,9 @@ setInterval(() => {
     .querySelector("a.playbackSoundBadge__lightLink.sc-truncate")
     .getAttribute("title");
 
+  const playControl = document.querySelector("button.playControls__play");
+  const paused = playControl ? !playControl.classList.contains("playing") : true;
+
   const artworkElement = /** @type {HTMLSpanElement} */ (document.querySelector(
     "a.sc-media-image div.image span.sc-artwork"
   ));
@@ -28,6 +31,7 @@ setInterval(() => {
 
   const data = {
     progress_ms: progress,
+    is_playing: !paused,
     item: {
       album: {
         artists: [
